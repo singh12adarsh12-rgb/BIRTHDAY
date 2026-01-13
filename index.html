@@ -6,102 +6,91 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
+body{
   margin:0;
   height:100vh;
-  background:black;
-  overflow:hidden;
+  background:black; /* black background */
   font-family:'Segoe UI',sans-serif;
+  overflow:hidden;
 }
 
-/* STARFIELD */
-.star{
-  position:absolute;
-  background:white;
-  border-radius:50%;
-  opacity:0.8;
-  pointer-events:none;
-}
-
-/* CENTER GIFT */
+/* 🎁 Center container */
 .center{
   position:fixed;
-  inset:0;
+  top:0;left:0;
+  width:100%;height:100%;
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:2;
-}
-
-/* GIFT CONTAINER */
-.gift-container{
-  perspective:800px;
-}
-
-/* GIFT BOX */
-.gift{
-  width:140px;
-  height:140px;
-  position:relative;
-  cursor:pointer;
-  transform-style:preserve-3d;
-}
-
-/* BOX */
-.gift-box{
-  width:100%;
-  height:100%;
-  background:#ff4d6d;
-  border-radius:12px;
-  box-shadow:0 8px 15px rgba(0,0,0,0.25);
-  position:absolute;
-  top:0;left:0;
-  z-index:1;
-}
-
-/* LID */
-.lid{
-  width:100%;
-  height:40px;
-  background:#ff6b81;
-  border-radius:12px 12px 0 0;
-  position:absolute;
-  top:-40px;
-  left:0;
-  box-shadow:0 5px 10px rgba(0,0,0,0.2);
-  transform-origin:bottom center;
   z-index:3;
-  pointer-events:none;
-  transition: transform 0.6s ease;
 }
 
-/* CARD */
+/* 🎁 Gift */
+.gift{
+  font-size:90px;
+  cursor:pointer;
+  text-align:center;
+  animation:pulse 1.5s infinite;
+}
+.gift.open{
+  animation:shake 0.6s ease, vanish 0.8s forwards 0.6s;
+}
+.tap{
+  color:#fff;
+  font-size:14px;
+  margin-top:8px;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(1)}
+}
+@keyframes shake{
+  0%{transform:rotate(0)}
+  25%{transform:rotate(8deg)}
+  50%{transform:rotate(-8deg)}
+  75%{transform:rotate(5deg)}
+  100%{transform:rotate(0)}
+}
+@keyframes vanish{
+  to{opacity:0;transform:scale(1.6)}
+}
+
+/* 🎂 Card */
 .card{
   position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) scale(.8);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.8);
   background:#fff;
   padding:30px;
-  border-radius:22px;
+  border-radius:20px;
   box-shadow:0 15px 40px rgba(0,0,0,.25);
   max-width:420px;
   text-align:center;
   opacity:0;
-  transition:.9s;
-  z-index:3;
+  transition:0.9s;
+  z-index:2
 }
 .card.show{
   opacity:1;
-  transform:translate(-50%,-50%) scale(1);
+  transform:translate(-50%,-50%) scale(1)
 }
-h1{color:#1f4fd8;}
-p{font-size:17px;line-height:1.6;color:#333;}
-.from{margin-top:18px;font-style:italic;color:#555;}
 
-/* CANDLE */
-.candle-wrap{display:flex;justify-content:center;margin-bottom:10px;}
-.candle{width:10px;height:35px;background:#ffd1a9;border-radius:3px;position:relative;}
+h1{color:#1f4fd8}
+p{font-size:17px;line-height:1.6;color:#333}
+.from{margin-top:18px;font-style:italic;color:#555}
+
+/* 🕯️ Candle */
+.candle-wrap{
+  display:flex;justify-content:center;margin-bottom:10px
+}
+.candle{
+  width:10px;height:35px;
+  background:#ffd1a9;
+  border-radius:3px;
+  position:relative
+}
 .flame{
   position:absolute;
   top:-18px;left:50%;
@@ -109,101 +98,129 @@ p{font-size:17px;line-height:1.6;color:#333;}
   background:radial-gradient(circle at 50% 30%, #fff 10%, #ffdf7e 40%, #ff9f1c 70%);
   border-radius:50%;
   transform:translateX(-50%);
-  animation:flicker .15s infinite alternate;
-  filter:drop-shadow(0 0 8px #ffb703);
+  animation:flicker 0.15s infinite alternate;
+  filter:drop-shadow(0 0 8px #ffb703)
+}
+@keyframes flicker{
+  0%{transform:translateX(-50%) scale(1) rotate(-1deg)}
+  100%{transform:translateX(-50%) scale(1.05) rotate(1deg)}
 }
 
-/* Hearts */
+/* 💙 Hearts */
 .heart{
   position:absolute;
   font-size:22px;
-  animation:floatHeart 6s linear infinite;
+  animation:float 6s linear infinite
+}
+@keyframes float{
+  0%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(-100vh);opacity:0}
 }
 
-@keyframes flicker{0%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1.05)}}
-@keyframes floatHeart{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-100vh);opacity:0}}
+/* 🌌 Stars */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  opacity:0.8;
+  pointer-events:none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
-<audio id="bgMusic" loop>
+<!-- 🎵 Music -->
+<audio id="bgMusic" autoplay loop muted>
   <source src="https://www.orangefreesounds.com/wp-content/uploads/2018/11/Happy-birthday-piano-music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- STARFIELD -->
+<!-- 🌌 Starfield -->
 <script>
-const numStars = 100;
+const numStars = 120;
 for(let i=0;i<numStars;i++){
   const star = document.createElement("div");
-  star.className="star";
-  const size = Math.random()*2 + 1;
-  star.style.width = size+"px";
-  star.style.height = size+"px";
-  star.style.top = Math.random()*100+"%";
-  star.style.left = Math.random()*100+"%";
+  star.className = "star";
+  star.style.top = Math.random()*100 + "vh";
+  star.style.left = Math.random()*100 + "vw";
+  const speed = 5 + Math.random()*10;
+  star.style.animation = `moveStar ${speed}s linear infinite`;
   document.body.appendChild(star);
 }
 </script>
 
-<!-- CENTER -->
-<div class="center" id="centerContent">
-  <div class="gift-container">
-    <div id="gift" class="gift">
-      <div class="lid"></div>
-      <div class="gift-box"></div>
-    </div>
+<style>
+@keyframes moveStar{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(100vh)}
+}
+</style>
+
+<!-- 🎁 Gift (perfect center) -->
+<div id="giftCenter" class="center">
+  <div id="gift" class="gift">
+    🎁
+    <div class="tap">Tap to open</div>
   </div>
 </div>
 
-<!-- CARD -->
+<!-- 🎂 Card -->
 <div id="card" class="card">
   <div class="candle-wrap">
-    <div class="candle"><div class="flame"></div></div>
+    <div class="candle">
+      <div class="flame"></div>
+    </div>
   </div>
   <h1>Happy Birthday, Bhaiya 🎂</h1>
-  <p>I am so grateful to have you as my brother. I pray you are always happy, healthy, and successful. May your dreams come true and your life be filled with smiles. I will always be proud of you and forever thankful to have you in my life 💙</p>
-  <div class="from">With all love<br>Your little one<br><strong>Anu</strong></div>
+  <p>
+    I am so grateful to have you as my brother. I pray you are always happy, healthy,
+    and successful. May your dreams come true and your life be filled with smiles.
+    I will always be proud of you and forever thankful to have you in my life 💙
+  </p>
+  <div class="from">
+    With all love<br>
+    Your little one<br>
+    <strong>Anu</strong>
+  </div>
 </div>
 
 <script>
-const gift = document.getElementById("gift");
-const lid = gift.querySelector(".lid");
-const music = document.getElementById("bgMusic");
-const center = document.getElementById("centerContent");
-const card = document.getElementById("card");
+// 🎁 Open gift
+document.getElementById("gift").addEventListener("click", () => {
 
-gift.addEventListener("click", () => {
-  // Lid opens
-  lid.style.transform = "rotateX(-120deg)";
-  
-  // Play music safely
-  music.play().catch(()=>{});
-  music.volume=0;
-  let v=0;
-  const fade=setInterval(()=>{
-    if(v<1){v+=0.05; music.volume=v;}else clearInterval(fade);
+  document.getElementById("gift").classList.add("open");
+
+  // 🎵 Music fade-in
+  const music = document.getElementById("bgMusic");
+  music.muted = false;
+  music.volume = 0;
+  music.play();
+  let v = 0;
+  const fade = setInterval(()=>{
+    if(v < 1){ v += 0.05; music.volume = v; }
+    else clearInterval(fade);
   },150);
 
-  // Hide gift & show card
+  // 🎂 Show card
   setTimeout(()=>{
-    center.style.display="none";
-    card.classList.add("show");
-  },700);
+    document.getElementById("giftCenter").style.display="none";
+    document.getElementById("card").classList.add("show");
+  },900);
 });
 
-// Hearts animation
+// 💙 Hearts
 function heart(){
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerText="💙";
-  h.style.left=Math.random()*100+"vw";
-  h.style.bottom="-20px";
+  let h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "💙";
+  h.style.left = Math.random()*100 + "vw";
+  h.style.bottom = "-20px";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),6000);
 }
-setInterval(heart,600);
+setInterval(heart,500);
 </script>
 
 </body>
