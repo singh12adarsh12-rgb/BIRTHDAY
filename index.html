@@ -7,47 +7,198 @@
 
 <style>
 body{
-margin:0;height:100vh;display:flex;justify-content:center;align-items:center;
+margin:0;height:100vh;
 background:linear-gradient(135deg,#8ec5fc,#e0c3fc);
-font-family:'Segoe UI',sans-serif;overflow:hidden
+font-family:'Segoe UI',sans-serif;
+overflow:hidden
 }
 
-/* 🎁 Gift */
+/* 🎄 STRING LIGHTS */
+.lights{
+position:fixed;
+top:0;left:0;
+width:100%;
+height:90px;
+display:flex;
+justify-content:space-evenly;
+align-items:flex-start;
+z-index:1;
+pointer-events:none
+}
+.wire{
+position:absolute;
+top:40px;
+width:100%;
+height:2px;
+background:#3b2f2f
+}
+.bulb{
+width:14px;height:20px;
+background:#ffd166;
+border-radius:50%;
+box-shadow:0 0 15px #ffd166;
+animation:twinkle 2s infinite alternate
+}
+.bulb:nth-child(odd){
+animation-delay:1s;
+background:#ffeaa7;
+box-shadow:0 0 18px #ffeaa7
+}
+@keyframes twinkle{0%{opacity:.6;transform:scale(.9)}100%{opacity:1;transform:scale(1.1)}}
+
+/* CENTER */
+.center{
+position:fixed;inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:40px;
+z-index:3
+}
+
+/* 🐼 PANDA */
+.panda-wrap{
+position:relative;
+display:flex;
+align-items:center
+}
+.panda{
+font-size:90px;
+animation:pandaFloat 2.5s ease-in-out infinite;
+filter:drop-shadow(0 10px 20px rgba(0,0,0,.25));
+user-select:none
+}
+.panda::after{
+content:"👉";
+display:block;
+font-size:38px;
+margin-left:60px;
+animation:point 1.2s infinite
+}
+
+/* 💬 SPEECH BUBBLE */
+.bubble{
+position:absolute;
+top:-70px;
+left:-20px;
+background:#fff;
+padding:10px 16px;
+border-radius:18px;
+font-size:16px;
+font-weight:600;
+color:#333;
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+animation:bubblePop 1.8s infinite;
+white-space:nowrap
+}
+.bubble::after{
+content:"";
+position:absolute;
+bottom:-10px;
+left:30px;
+border-width:10px 10px 0;
+border-style:solid;
+border-color:#fff transparent transparent
+}
+
+/* 🎁 GIFT */
 .gift{
-font-size:90px;cursor:pointer;z-index:3;
-animation:pulse 1.5s infinite;text-align:center
+width:120px;height:120px;
+background:linear-gradient(145deg,#ff4d6d,#ff758f);
+border-radius:18px;
+position:relative;
+cursor:pointer;
+box-shadow:0 20px 40px rgba(0,0,0,.25);
+animation:floatGift 3s ease-in-out infinite;
+overflow:hidden
+}
+/* ribbon vertical */
+.gift::before{
+content:"";
+position:absolute;
+left:50%;top:0;
+width:22px;height:100%;
+background:#ffd166;
+transform:translateX(-50%);
+z-index:2
+}
+/* ribbon horizontal */
+.gift::after{
+content:"";
+position:absolute;
+top:50%;left:0;
+width:100%;height:22px;
+background:#ffd166;
+transform:translateY(-50%);
+z-index:2
+}
+/* ribbon slip overlay */
+.ribbon-slip{
+position:absolute;
+top:0;left:0;
+width:100%;height:100%;
+pointer-events:none;
+z-index:3
+}
+.ribbon-slip div{
+position:absolute;
+background:#ffd166;
+width:22px;height:100%;
+top:0;left:50%;
+transform:translateX(-50%);
+border-radius:3px;
+transition:all .8s ease
+}
+.ribbon-slip div.horiz{
+width:100%;height:22px;top:50%;left:0;transform:translateY(-50%);transition:all .8s ease
+}
+
+.lid{
+position:absolute;
+top:-28px;left:-8px;
+width:136px;height:35px;
+background:linear-gradient(145deg,#ff6b81,#ff8fa3);
+border-radius:18px;
+transition:.8s;
+z-index:4;
+}
+.shine{
+position:absolute;
+top:-50%;left:-50%;
+width:200%;height:200%;
+background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.5),transparent 60%);
+animation:shine 2.5s infinite
+}
+.gift.open .lid{
+transform:translateY(-40px) rotate(-6deg);
+opacity:0
+}
+.gift.open .ribbon-slip div{
+top:-50%;left:-50%;
+opacity:0
 }
 .gift.open{
-animation:shake 0.6s ease, vanish 0.8s forwards 0.6s
-}
-.tap{color:#fff;font-size:14px}
-
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.1)}
-100%{transform:scale(1)}
-}
-@keyframes shake{
-0%{transform:rotate(0)}
-25%{transform:rotate(8deg)}
-50%{transform:rotate(-8deg)}
-75%{transform:rotate(5deg)}
-100%{transform:rotate(0)}
-}
-@keyframes vanish{
-to{opacity:0;transform:scale(1.6)}
+animation:openGift .8s forwards
 }
 
-/* 🎂 Card */
+/* 🎂 CARD */
 .card{
-background:#fff;padding:30px;border-radius:20px;
+position:fixed;
+top:50%;left:50%;
+transform:translate(-50%,-50%) scale(.8);
+background:#fff;
+padding:30px;
+border-radius:22px;
 box-shadow:0 15px 40px rgba(0,0,0,.25);
-max-width:420px;text-align:center;
-opacity:0;transform:scale(0.8);
-transition:0.9s;z-index:2
+max-width:420px;
+text-align:center;
+opacity:0;
+transition:.9s;
+z-index:2
 }
 .card.show{
-opacity:1;transform:scale(1)
+opacity:1;
+transform:translate(-50%,-50%) scale(1)
 }
 
 h1{color:#1f4fd8}
@@ -55,69 +206,74 @@ p{font-size:17px;line-height:1.6;color:#333}
 .from{margin-top:18px;font-style:italic;color:#555}
 
 /* 🕯️ Candle */
-.candle-wrap{
-display:flex;justify-content:center;margin-bottom:10px
-}
-.candle{
-width:10px;height:35px;background:#ffd1a9;
-border-radius:3px;position:relative
-}
+.candle-wrap{display:flex;justify-content:center;margin-bottom:10px}
+.candle{width:10px;height:35px;background:#ffd1a9;border-radius:3px;position:relative}
 .flame{
-position:absolute;top:-18px;left:50%;
+position:absolute;
+top:-18px;left:50%;
 width:14px;height:20px;
 background:radial-gradient(circle at 50% 30%, #fff 10%, #ffdf7e 40%, #ff9f1c 70%);
 border-radius:50%;
 transform:translateX(-50%);
-animation:flicker 0.15s infinite alternate;
+animation:flicker .15s infinite alternate;
 filter:drop-shadow(0 0 8px #ffb703)
-}
-@keyframes flicker{
-0%{transform:translateX(-50%) scale(1) rotate(-1deg)}
-100%{transform:translateX(-50%) scale(1.05) rotate(1deg)}
 }
 
 /* 💙 Hearts */
 .heart{
-position:absolute;font-size:22px;
-animation:float 6s linear infinite
-}
-@keyframes float{
-0%{transform:translateY(0);opacity:1}
-100%{transform:translateY(-100vh);opacity:0}
+position:absolute;
+font-size:22px;
+animation:floatHeart 6s linear infinite
 }
 
-/* 🎉 Confetti */
-.confetti{
-position:fixed;top:-10px;font-size:18px;
-animation:fall 3s linear forwards
-}
-@keyframes fall{
-to{transform:translateY(110vh) rotate(720deg);opacity:0}
-}
+/* ANIMATIONS */
+@keyframes pandaFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes point{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
+@keyframes bubblePop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes floatGift{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes openGift{to{opacity:0;transform:scale(1.4)}}
+@keyframes flicker{0%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1.05)}}
+@keyframes floatHeart{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-100vh);opacity:0}}
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 Background Music -->
+<!-- 🎄 LIGHTS -->
+<div class="lights">
+  <div class="wire"></div>
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+</div>
+
+<!-- 🎵 MUSIC -->
 <audio id="bgMusic" autoplay loop muted>
   <source src="https://www.orangefreesounds.com/wp-content/uploads/2018/11/Happy-birthday-piano-music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 🎁 Gift Box -->
-<div id="gift" class="gift">
-  🎁
-  <div class="tap">Tap to open</div>
+<!-- 🐼 + 🎁 -->
+<div id="giftCenter" class="center">
+  <div class="panda-wrap">
+    <div class="bubble">Open it!</div>
+    <div class="panda">🐼</div>
+  </div>
+
+  <div id="gift" class="gift">
+    <div class="lid"></div>
+    <div class="shine"></div>
+    <div class="ribbon-slip">
+      <div></div>
+      <div class="horiz"></div>
+    </div>
+  </div>
 </div>
 
-<!-- 🎂 Birthday Card -->
+<!-- 🎂 CARD -->
 <div id="card" class="card">
-
-  <!-- 🕯️ Candle Flame -->
   <div class="candle-wrap">
-    <div class="candle">
-      <div class="flame"></div>
-    </div>
+    <div class="candle"><div class="flame"></div></div>
   </div>
 
   <h1>Happy Birthday, Bhaiya 🎂</h1>
@@ -136,53 +292,37 @@ to{transform:translateY(110vh) rotate(720deg);opacity:0}
 </div>
 
 <script>
-// 🎁 Gift opening
-document.getElementById("gift").addEventListener("click", () => {
-  const gift = document.getElementById("gift");
-  gift.classList.add("open");
+document.getElementById("gift").addEventListener("click",()=>{
+  document.getElementById("gift").classList.add("open");
+  document.querySelector(".panda-wrap").style.opacity="0";
 
-  // 🎵 Music fade-in
-  const music = document.getElementById("bgMusic");
-  music.muted = false;
-  music.volume = 0;
-  music.play();
-  let v = 0;
-  const fade = setInterval(()=>{
-    if(v < 1){ v += 0.05; music.volume = v; }
-    else clearInterval(fade);
-  },150);
+  const music=document.getElementById("bgMusic");
+  music.muted=false; music.volume=0; music.play();
+  let v=0;
+  const fade=setInterval(()=>{if(v<1){v+=0.05;music.volume=v}else clearInterval(fade)},150);
 
-  // 🎉 Confetti
-  for(let i=0;i<40;i++){
-    const c=document.createElement("div");
-    c.className="confetti";
-    c.textContent="🎉";
-    c.style.left=Math.random()*100+"vw";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),3000);
-  }
-
-  // 🎂 Show card
   setTimeout(()=>{
-    gift.style.display="none";
+    document.getElementById("giftCenter").style.display="none";
     document.getElementById("card").classList.add("show");
   },900);
 });
 
-// 💙 Floating hearts
+// 💙 Hearts
 function heart(){
 let h=document.createElement("div");
-h.className="heart";h.innerText="💙";
+h.className="heart";
+h.innerText="💙";
 h.style.left=Math.random()*100+"vw";
 h.style.bottom="-20px";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
 }
-setInterval(heart,500);
+setInterval(heart,600);
 </script>
 
 </body>
 </html>
+
 
 
 
