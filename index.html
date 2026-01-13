@@ -12,130 +12,29 @@ background:linear-gradient(135deg,#8ec5fc,#e0c3fc);
 font-family:'Segoe UI',sans-serif;overflow:hidden
 }
 
-.card{
-background:#fff;padding:30px;border-radius:20px;
-box-shadow:0 15px 40px rgba(0,0,0,.25);
-max-width:420px;text-align:center;
-opacity:0;transform:scale(0.9);
-transition:0.8s;z-index:2
-}
-.card.show{
-opacity:1;transform:scale(1)
-}
-
-h1{color:#1f4fd8}
-p{font-size:17px;line-height:1.6;color:#333}
-.from{margin-top:18px;font-style:italic;color:#555}
-
-/* 🎁 Gift box */
+/* 🎁 Gift */
 .gift{
-font-size:90px;cursor:pointer;
+font-size:90px;cursor:pointer;z-index:3;
 animation:pulse 1.5s infinite;
-z-index:3;text-align:center
+transition:0.6s
 }
+.gift.open{
+animation:shake 0.6s ease, vanish 0.8s forwards 0.6s
+}
+
 @keyframes pulse{
 0%{transform:scale(1)}
 50%{transform:scale(1.1)}
 100%{transform:scale(1)}
 }
+@keyframes shake{
+0%{transform:rotate(0)}
+25%{transform:rotate(8deg)}
+50%{transform:rotate(-8deg)}
+7
 
-.tap{
-margin-top:10px;font-size:14px;color:#fff
-}
+  
 
-/* Hearts */
-.heart{
-position:absolute;font-size:22px;
-animation:float 6s linear infinite
-}
-@keyframes float{
-0%{transform:translateY(0);opacity:1}
-100%{transform:translateY(-100vh);opacity:0}
-}
-
-/* Snowflakes */
-.snowflake{
-position:fixed;top:-10px;color:#fff;
-user-select:none;pointer-events:none;
-z-index:0;animation:fall linear infinite
-}
-@keyframes fall{
-0%{transform:translateY(0) rotate(0deg)}
-100%{transform:translateY(100vh) rotate(360deg)}
-}
-</style>
-</head>
-
-<body>
-
-<!-- 🎵 Music -->
-<audio id="bgMusic" autoplay loop muted>
-  <source src="https://www.orangefreesounds.com/wp-content/uploads/2018/11/Happy-birthday-piano-music.mp3" type="audio/mpeg">
-</audio>
-
-<!-- 🎁 Gift Screen -->
-<div id="giftScreen" class="gift">
-  🎁
-  <div class="tap">Tap the gift</div>
-</div>
-
-<!-- 🎂 Birthday Card -->
-<div id="card" class="card">
-<h1>Happy Birthday, Bhaiya 🎂</h1>
-
-<p>
-I am so grateful to have you as my brother. I pray you are always happy, healthy,
-and successful. May your dreams come true and your life be filled with smiles.
-I will always be proud of you and forever thankful to have you in my life 💙
-</p>
-
-<div class="from">
-With all love<br>
-Your little one<br>
-<strong>Anu</strong>
-</div>
-</div>
-
-<script>
-// 🎁 Open gift
-document.getElementById("giftScreen").addEventListener("click", () => {
-  document.getElementById("giftScreen").style.display = "none";
-  document.getElementById("card").classList.add("show");
-
-  const music = document.getElementById("bgMusic");
-  music.muted = false;
-  music.play();
-});
-
-// 💙 Hearts
-function heart(){
-let h=document.createElement("div");
-h.className="heart";h.innerText="💙";
-h.style.left=Math.random()*100+"vw";
-h.style.bottom="-20px";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
-}
-setInterval(heart,500);
-
-// ❄ Snowflakes
-const snowflakes=['❄','❅','❆','✦','✧'];
-function createSnowflake(){
-const s=document.createElement('div');
-s.className='snowflake';
-s.style.left=Math.random()*window.innerWidth+'px';
-s.style.fontSize=(Math.random()*24+10)+'px';
-s.style.opacity=Math.random();
-s.textContent=snowflakes[Math.floor(Math.random()*snowflakes.length)];
-s.style.animationDuration=(5+Math.random()*5)+'s';
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),10000);
-}
-setInterval(createSnowflake,200);
-</script>
-
-</body>
-</html>
 
 
 
