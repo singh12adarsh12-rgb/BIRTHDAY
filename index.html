@@ -50,6 +50,52 @@ h.style.bottom="-20px";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);}
 setInterval(heart,500);
+  
 </script>
+ <style>
+/* Snowflake styling */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: #fff; /* change color if needed */
+  font-size: 1em;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0; /* behind your content */
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+</style>
+
+<script>
+// Snowflake characters
+const snowflakes = ['❄', '❅', '❆', '✦', '✧'];
+
+function createSnowflake() {
+  const s = document.createElement('div');
+  s.className = 'snowflake';
+  s.style.left = Math.random() * window.innerWidth + 'px';
+  s.style.fontSize = (Math.random() * 24 + 10) + 'px';
+  s.style.opacity = Math.random();
+  s.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+  s.style.animationDuration = (5 + Math.random() * 5) + 's';
+  s.style.animationDelay = Math.random() * 5 + 's';
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 10000);
+}
+
+// Generate snowflakes continuously
+document.addEventListener("DOMContentLoaded", function() {
+  setInterval(createSnowflake, 200);
+});
+</script>
+
+
 </body>
 </html>
