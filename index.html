@@ -15,12 +15,12 @@ font-family:'Segoe UI',sans-serif;overflow:hidden
 /* 🎁 Gift */
 .gift{
 font-size:90px;cursor:pointer;z-index:3;
-animation:pulse 1.5s infinite;
-transition:0.6s
+animation:pulse 1.5s infinite;text-align:center
 }
 .gift.open{
 animation:shake 0.6s ease, vanish 0.8s forwards 0.6s
 }
+.tap{color:#fff;font-size:14px}
 
 @keyframes pulse{
 0%{transform:scale(1)}
@@ -31,7 +31,160 @@ animation:shake 0.6s ease, vanish 0.8s forwards 0.6s
 0%{transform:rotate(0)}
 25%{transform:rotate(8deg)}
 50%{transform:rotate(-8deg)}
-7
+75%{transform:rotate(5deg)}
+100%{transform:rotate(0)}
+}
+@keyframes vanish{
+to{opacity:0;transform:scale(1.6)}
+}
+
+/* 🎂 Card */
+.card{
+background:#fff;padding:30px;border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+max-width:420px;text-align:center;
+opacity:0;transform:scale(0.8);
+transition:0.9s;z-index:2
+}
+.card.show{
+opacity:1;transform:scale(1)
+}
+
+h1{color:#1f4fd8}
+p{font-size:17px;line-height:1.6;color:#333}
+.from{margin-top:18px;font-style:italic;color:#555}
+
+/* 🕯️ Candle */
+.candle-wrap{
+display:flex;justify-content:center;margin-bottom:10px
+}
+.candle{
+width:10px;height:35px;background:#ffd1a9;
+border-radius:3px;position:relative
+}
+.flame{
+position:absolute;top:-18px;left:50%;
+width:14px;height:20px;
+background:radial-gradient(circle at 50% 30%, #fff 10%, #ffdf7e 40%, #ff9f1c 70%);
+border-radius:50%;
+transform:translateX(-50%);
+animation:flicker 0.15s infinite alternate;
+filter:drop-shadow(0 0 8px #ffb703)
+}
+@keyframes flicker{
+0%{transform:translateX(-50%) scale(1) rotate(-1deg)}
+100%{transform:translateX(-50%) scale(1.05) rotate(1deg)}
+}
+
+/* 💙 Hearts */
+.heart{
+position:absolute;font-size:22px;
+animation:float 6s linear infinite
+}
+@keyframes float{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
+}
+
+/* 🎉 Confetti */
+.confetti{
+position:fixed;top:-10px;font-size:18px;
+animation:fall 3s linear forwards
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Background Music -->
+<audio id="bgMusic" autoplay loop muted>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2018/11/Happy-birthday-piano-music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🎁 Gift Box -->
+<div id="gift" class="gift">
+  🎁
+  <div class="tap">Tap to open</div>
+</div>
+
+<!-- 🎂 Birthday Card -->
+<div id="card" class="card">
+
+  <!-- 🕯️ Candle Flame -->
+  <div class="candle-wrap">
+    <div class="candle">
+      <div class="flame"></div>
+    </div>
+  </div>
+
+  <h1>Happy Birthday, Bhaiya 🎂</h1>
+
+  <p>
+  I am so grateful to have you as my brother. I pray you are always happy, healthy,
+  and successful. May your dreams come true and your life be filled with smiles.
+  I will always be proud of you and forever thankful to have you in my life 💙
+  </p>
+
+  <div class="from">
+    With all love<br>
+    Your little one<br>
+    <strong>Anu</strong>
+  </div>
+</div>
+
+<script>
+// 🎁 Gift opening
+document.getElementById("gift").addEventListener("click", () => {
+  const gift = document.getElementById("gift");
+  gift.classList.add("open");
+
+  // 🎵 Music fade-in
+  const music = document.getElementById("bgMusic");
+  music.muted = false;
+  music.volume = 0;
+  music.play();
+  let v = 0;
+  const fade = setInterval(()=>{
+    if(v < 1){ v += 0.05; music.volume = v; }
+    else clearInterval(fade);
+  },150);
+
+  // 🎉 Confetti
+  for(let i=0;i<40;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.textContent="🎉";
+    c.style.left=Math.random()*100+"vw";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+
+  // 🎂 Show card
+  setTimeout(()=>{
+    gift.style.display="none";
+    document.getElementById("card").classList.add("show");
+  },900);
+});
+
+// 💙 Floating hearts
+function heart(){
+let h=document.createElement("div");
+h.className="heart";h.innerText="💙";
+h.style.left=Math.random()*100+"vw";
+h.style.bottom="-20px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+}
+setInterval(heart,500);
+</script>
+
+</body>
+</html>
+
+
 
   
 
