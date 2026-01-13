@@ -52,3 +52,51 @@ setInterval(heart,500);
 </script>
 </body>
 </html>
+<style>
+  /* Snowflake styling */
+  .snowflake {
+    position: fixed;
+    top: -10px;
+    color: #fff;
+    font-size: 1em;
+    user-select: none;
+    pointer-events: none;
+    z-index: 9999;
+    animation-name: fall;
+    animation-duration: 10s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+  }
+</style>
+
+<script>
+  // Snowflake characters
+  const snowflakes = ['❄', '❅', '❆', '✦', '✧'];
+
+  function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.style.left = Math.random() * window.innerWidth + 'px';
+    snowflake.style.fontSize = (Math.random() * 24 + 10) + 'px';
+    snowflake.style.opacity = Math.random();
+    snowflake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+
+    snowflake.style.animationDuration = (5 + Math.random() * 5) + 's';
+    snowflake.style.animationDelay = Math.random() * 5 + 's';
+
+    document.body.appendChild(snowflake);
+
+    // Remove snowflake after animation
+    setTimeout(() => snowflake.remove(), 10000);
+  }
+
+  // Continuously generate snowflakes
+  setInterval(createSnowflake, 200);
+</script>
+
+
