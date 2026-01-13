@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@ body {
   overflow:hidden;
 }
 
-/* CENTER PANDA + GIFT */
+/* CENTER */
 .center{
   position:fixed;
   inset:0;
@@ -23,38 +24,14 @@ body {
   justify-content:center;
   align-items:center;
   gap:20px;
+  z-index:2;
 }
 
 /* PANDA */
-.panda-wrap{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
 .panda{
   font-size:80px;
   user-select:none;
-}
-.bubble{
-  background:#fff;
-  padding:10px 16px;
-  border-radius:18px;
-  font-size:16px;
-  font-weight:600;
-  color:#333;
-  box-shadow:0 10px 20px rgba(0,0,0,.2);
-  white-space:nowrap;
-}
-.bubble::after{
-  content:"";
-  position:absolute;
-  bottom:-10px;
-  left:20px;
-  border-width:10px 10px 0;
-  border-style:solid;
-  border-color:#fff transparent transparent;
-  position:relative;
-  display:block;
+  animation:pandaFloat 2s ease-in-out infinite alternate;
 }
 
 /* GIFT */
@@ -67,7 +44,9 @@ body {
   cursor:pointer;
   box-shadow:0 15px 35px rgba(0,0,0,.25);
   overflow:hidden;
+  transition:transform 0.5s;
 }
+/* ribbon */
 .gift::before{
   content:"";
   position:absolute;
@@ -84,6 +63,8 @@ body {
   background:#ffd166;
   transform:translateY(-50%);
 }
+
+/* lid */
 .lid{
   position:absolute;
   top:-28px;left:-8px;
@@ -91,7 +72,9 @@ body {
   background:linear-gradient(145deg,#ff6b81,#ff8fa3);
   border-radius:18px;
   transition:.8s;
+  z-index:2;
 }
+/* shine */
 .shine{
   position:absolute;
   top:-50%;left:-50%;
@@ -99,12 +82,14 @@ body {
   background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.5),transparent 60%);
   animation:shine 2.5s infinite;
 }
+
 .gift.open .lid{
-  transform:translateY(-40px);
+  transform:translateY(-40px) rotate(-6deg);
   opacity:0;
 }
 .gift.open{
-  animation:openGift .8s forwards;
+  animation:openGift 0.8s forwards;
+  transform:scale(1.05);
 }
 
 /* CARD */
@@ -121,7 +106,7 @@ body {
   text-align:center;
   opacity:0;
   transition:.9s;
-  z-index:2;
+  z-index:3;
 }
 .card.show{
   opacity:1;
@@ -153,6 +138,7 @@ p{font-size:17px;line-height:1.6;color:#333;}
 }
 
 /* Animations */
+@keyframes pandaFloat{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 @keyframes openGift{to{opacity:0;transform:scale(1.4)}}
 @keyframes flicker{0%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1.05)}}
@@ -163,16 +149,13 @@ p{font-size:17px;line-height:1.6;color:#333;}
 <body>
 
 <!-- MUSIC -->
-<audio id="bgMusic" autoplay loop muted>
+<audio id="bgMusic" loop>
   <source src="https://www.orangefreesounds.com/wp-content/uploads/2018/11/Happy-birthday-piano-music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- CENTER PANDA + GIFT -->
-<div id="giftCenter" class="center">
-  <div class="panda-wrap">
-    <div class="bubble">Open it!</div>
-    <div class="panda">🐼👉</div>
-  </div>
+<!-- CENTER -->
+<div class="center" id="centerContent">
+  <div class="panda">🐼</div>
 
   <div id="gift" class="gift">
     <div class="lid"></div>
@@ -191,21 +174,26 @@ p{font-size:17px;line-height:1.6;color:#333;}
 </div>
 
 <script>
-const gift=document.getElementById("gift");
-gift.addEventListener("click",()=>{
-  gift.classList.add("open");
-  document.getElementById("giftCenter").style.display="none";
+const gift = document.getElementById("gift");
+const music = document.getElementById("bgMusic");
 
-  const music=document.getElementById("bgMusic");
-  music.muted=false;
-  music.volume=0;
-  music.play();
+gift.addEventListener("click", () => {
+  // Open lid
+  gift.classList.add("open");
+
+  // Start music safely after user click
+  music.play().catch(()=>{}); 
+  music.volume = 0;
   let v=0;
   const fade=setInterval(()=>{
-    if(v<1){v+=0.05;music.volume=v}else clearInterval(fade);
+    if(v<1){v+=0.05; music.volume=v;}else clearInterval(fade);
   },150);
 
-  document.getElementById("card").classList.add("show");
+  // Hide panda and gift after animation
+  setTimeout(()=>{
+    document.getElementById("centerContent").style.display="none";
+    document.getElementById("card").classList.add("show");
+  },800);
 });
 
 // Hearts animation
